@@ -47,3 +47,29 @@ function check_number_from_input() {
     result_element.style.color = 'green';
   }
 }
+function print_numbers() {
+  const first_number = document.getElementById('number_one').value;
+  const second_number = document.getElementById('number_two').value;
+  let f_number = parseInt(first_number, 10);
+  let s_number = parseInt(second_number, 10);
+
+  if (isNaN(f_number) || isNaN(s_number)) {
+    document.getElementById('printing_result').innerHTML = 'bad data-type';
+  } else if (f_number <= s_number) {
+    do {
+      document.getElementById('printing_result').innerHTML += f_number + ' ';
+      f_number += 1;
+    } while (f_number <= s_number);
+  } else if (f_number > s_number) {
+    do {
+      document.getElementById('printing_result').innerHTML += f_number + ' ';
+      f_number = f_number - 1;
+    } while (f_number >= s_number);
+  } else {
+    document.getElementById('printing_result').innerHTML = 'bad data-type';
+  }
+}
+
+function clear_field() {
+  document.getElementById('printing_result').innerHTML = null;
+}

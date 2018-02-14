@@ -1,0 +1,116 @@
+body {
+  background-color: black;
+  color: white;
+  font-size: 28px;
+  font-family: 'Amatic SC', cursive;
+}
+
+body * {
+  font-family: 'Amatic SC', cursive;
+}
+
+#container {
+  background-color: black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#container_1 {
+  display: flex;
+  border: 2px solid white;
+  height: 15%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  justify-content: center;
+  align-items: center;
+}
+
+#board {
+  font-size: 50pt;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 2px;
+}
+
+#button_new_game {
+  background-color: black;
+  border: 2px solid white;
+  margin-right: 10%;
+  width: 20%;
+  height: 70%;
+  font-size: 35px;
+  color: white;
+  letter-spacing: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: visible;
+}
+
+#button_new_game:hover {
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+
+#container_2 {
+  display: flex;
+  visibility: hidden;
+}
+
+/* Kuba to dodał */
+.gallow-image {
+  width: 200px;
+  height: auto;
+  visibility: visible;
+}
+
+#gallows {
+  flex: 1;
+  margin: 2%;
+  height: 60%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#alphabet {
+  display: flex;
+  background-color: black;
+  height: 60%;
+  margin: 2%;
+  width: 50%;
+  flex-wrap: wrap;
+}
+
+.letter {
+  border: 2px solid white;
+  height: 13%;
+  width: 10%;
+  margin: 2%;
+  font-size: 100%;
+  background-color: black;
+  color: white;
+}
+
+.letter:not(:disabled):hover {
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+
+.letter:active,
+.letter:focus {
+  outline: 0;
+}
+
+.letter.invalid {
+  border: 2px solid rgb(218, 11, 11);
+}
+
+.letter.valid {
+  border: 2px solid rgb(12, 104, 12);
+}

@@ -1,9 +1,10 @@
-const clue = 'ZUZIA';
+let clue = 'ala ma kota';
 let invalid_counter = 0;
 let underscored_counter = clue.length;
 let underscored_clue = '';
 
 function start_game() {
+  clue = clue.toUpperCase();
   clear_letters();
   underscored_clue = '';
   let clue_counter = 0;
@@ -14,6 +15,7 @@ function start_game() {
   document.getElementById('board').innerHTML = underscored_clue;
   invalid_counter = 0;
   underscored_counter = clue.length;
+  add_space();
   document.getElementById('button_new_game').style.display = 'none';
   document.getElementById('container_2').style.visibility = 'visible';
 }
@@ -71,8 +73,20 @@ function clear_letters() {
   document.querySelector('.gallow-image').style.display = 'none';
 }
 
+function add_space() {
+  let space_index = clue.indexOf(' ');
+  while (space_index !== -1) {
+    underscored_clue = underscored_clue.substr(0, space_index) + ' ' + underscored_clue.substr(space_index + 1);
+    underscored_counter -= 1;
+    space_index = clue.indexOf(' ', space_index + 1);
+  }
+  document.getElementById('board').innerHTML = underscored_clue;
+}
+
 function winner() {
-  document.getElementById('board').innerHTML = 'WINNER!';
+  setTimeout(function() {
+    document.getElementById('board').innerHTML = 'WINNER!';
+  }, 2000);
   document.querySelector('#button_new_game').style.display = 'block';
   document.querySelector('#button_new_game').innerHTML = 'PLAY AGAIN';
   const letters = document.querySelectorAll('.letter');

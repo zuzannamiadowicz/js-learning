@@ -65,7 +65,7 @@ body * {
 .gallow-image {
   width: 200px;
   height: auto;
-  visibility: visible;
+  display: block;
 }
 
 #gallows {
@@ -76,6 +76,7 @@ body * {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 200%;
 }
 
 #alphabet {

@@ -1,10 +1,39 @@
-let clue = 'ala ma kota';
+let clue = '';
 let invalid_counter = 0;
 let underscored_counter = clue.length;
 let underscored_clue = '';
 
+const clues = [
+  'wytwórstwo chałupnicze',
+  'Demokratyczna Republika Konga ',
+  'Lecznica dla zwierząt',
+  'Wybrzeże Kości Słoniowej',
+  'Burza mózgów',
+  'Przechodzić samego siebie',
+  'Tępy jak osioł',
+  'Raz kozie śmierć',
+  'Gdzie dwóch sie bije tam trzeci korzysta',
+  'Panna z Mokrą Głową',
+  'Nie wywołuj wilka z lasu',
+  'Głowa Pusta jak kapusta',
+  'Drapieżny jak lew',
+  'M jak miłość',
+  'Chaos',
+  'Syrenka',
+  'Kluski Śląskie',
+  'Taniec Brzucha',
+  'Casino Royal',
+  'Hawaje',
+  'Cylinder',
+  'Z deszczu pod rynne'
+];
+
+function random_clue() {
+  return clues[Math.floor(Math.random() * clues.length)];
+}
+
 function start_game() {
-  clue = clue.toUpperCase();
+  clue = random_clue().toUpperCase();
   clear_letters();
   underscored_clue = '';
   let clue_counter = 0;
@@ -33,7 +62,6 @@ function letter_click(event) {
     event.target.classList.add('valid');
     while (letter_index !== -1) {
       underscored_clue = underscored_clue.substr(0, letter_index) + letter + underscored_clue.substr(letter_index + 1);
-
       underscored_counter -= 1;
       letter_index = clue.indexOf(letter, letter_index + 1);
     }

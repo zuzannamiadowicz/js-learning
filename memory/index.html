@@ -1,0 +1,48 @@
+<html lang="pl">
+
+<head>
+  <meta charset="utf-8" />
+  <title>MEMORY</title>
+  <link rel="stylesheet" href="reset.css" type "text/css"/>
+  <link rel="stylesheet" href="memory.css" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Over+the+Rainbow" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Crafty+Girls" rel="stylesheet">
+</head>
+
+<body>
+  <div class="root">
+    <div id='container1'>
+      <div id="game-name">
+        <p>
+          * MEMORY *
+        </p>
+      </div>
+    </div>
+
+    <div id='container2'>
+      <div id="cards"></div>
+    </div>
+
+    <div id='container3'>
+      <button id="play" type="button" value="PLAY" onclick="start_game()">
+        <p>play ↠</p>
+      </button>
+      <div id="score">
+        <p>SCORE = 0</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="memory.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114214290-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-114214290-1');
+  </script>
+
+</body>
+
+</html>

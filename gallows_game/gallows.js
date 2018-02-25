@@ -122,3 +122,55 @@ function winner() {
     letters[i].disabled = true;
   }
 }
+
+const letters = [
+  'A',
+  'Ą',
+  'B',
+  'C',
+  'Ć',
+  'D',
+  'E',
+  'Ę',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'Ł',
+  'M',
+  'N',
+  'Ń',
+  'O',
+  'Ó',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'Ś',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Y',
+  'Z',
+  'Ź',
+  'Ż'
+];
+
+function create_alphabet() {
+  const letters_container = document.querySelector('#alphabet');
+
+  for (let i = 0; i < letters.length; i++) {
+    const button = document.createElement('button');
+
+    button.innerHTML = letters[i];
+    button.classList.add('letter');
+    button.addEventListener('click', letter_click);
+    letters_container.appendChild(button);
+  }
+}
+create_alphabet();

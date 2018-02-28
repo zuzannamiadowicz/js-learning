@@ -12,11 +12,9 @@
 <body>
   <div class="root">
     <div id='container1'>
-      <div id="game-name">
-        <p>
-          * MEMORY *
-        </p>
-      </div>
+      <p id="game-name">
+        * MEMORY *
+      </p>
     </div>
 
     <div id='container2'>
@@ -24,7 +22,9 @@
     </div>
 
     <div id='container3'>
-      <button id="play" type="button" value="PLAY" onclick="start_game()">
+      <div id='ranking'>RANKING</div>
+      <input id="player-name" type="text" placeholder="player name" oninput="on_input(event)">
+      <button id="play" type="button" value="PLAY" onclick="start_game()" disabled="disabled">
         <p>play ↠</p>
       </button>
       <div id="score">

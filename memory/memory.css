@@ -107,29 +107,32 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 #ranking {
   font-weight: bold;
   font-size: 2rem;
   display: none;
-  align-items: center;
-  justify-content: center;
   content: 'score';
+  margin: 100px;
   background: white;
-  border: 2px solid rgba(65, 59, 59, 0.938);
+  border: 3px solid rgba(65, 59, 59, 0.938);
   width: 300px;
-  margin-top: 40px;
-  margin-bottom: 40px;
+}
+
+@media only screen and (max-device-width: 600px) {
+  #ranking {
+    width: 500px;
+    font-size: 4rem;
+  }
 }
 
 #ranking .header {
   background-image: url(halftone-yellow.png);
-  border-bottom: 2px solid rgba(65, 59, 59, 0.938);
+  border-bottom: 3px solid rgba(65, 59, 59, 0.938);
   display: flex;
   justify-content: space-around;
-  padding: 10px;
+  padding: 20px;
 }
 
 #ranking .row {
@@ -138,7 +141,7 @@ body {
 }
 
 #ranking .row > span {
-  padding: 10px 10px 0px 10;
+  padding: 20px 20px 10px 20;
 }
 
 #ranking .last_result {
@@ -147,13 +150,13 @@ body {
 
 #play {
   font-family: 'Crafty Girls', cursive;
-  padding: 15px 40px;
+  padding: 10px 30px 20px;
   background-image: url(halftone-yellow.png);
   border: 3px solid rgba(65, 59, 59, 0.938);
   color: rgba(65, 59, 59, 0.938);
   font-size: 4rem;
   display: flex;
-  align-items: center;
+  text-align: center;
   justify-content: center;
   transition-duration: 1s;
 }
@@ -190,7 +193,7 @@ body {
   text-align: center;
   outline: 0;
   flex-grow: 0;
-  margin-bottom: 40px;
+  margin: 100px;
 }
 
 @media only screen and (max-device-width: 600px) {
@@ -204,21 +207,21 @@ body {
 
 #score {
   width: 300px;
-  font-weight: bold;
   font-size: 40px;
-  padding: 10px;
+  padding: 20px 10px 15px;
   display: none;
   align-items: center;
   justify-content: center;
   content: 'score';
   background: white;
-  border: 2px solid rgba(65, 59, 59, 0.938);
+  border: 3px solid rgba(65, 59, 59, 0.938);
   margin-top: 40px;
   margin-bottom: 30px;
 }
 
 @media only screen and (max-device-width: 600px) {
   #score {
+    width: 450px;
     font-size: 4rem;
     padding: 30px;
   }

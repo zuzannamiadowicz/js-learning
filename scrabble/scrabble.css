@@ -1,0 +1,155 @@
+body {
+  color: rgba(65, 59, 59, 0.938);
+  font-size: 2rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#header {
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+  border-bottom: 7px double rgba(4, 39, 17, 0.938);
+}
+#game_name {
+  text-align: center;
+  font-size: 70px;
+  padding: 20px;
+}
+
+.root {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+#game_space {
+  display: flex;
+  margin: 50px;
+}
+
+#board {
+  width: calc(15 * 50px);
+  height: calc(15 * 50px);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.box {
+  box-sizing: border-box;
+  border: 1px solid rgba(4, 39, 17, 0.938);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.box:first-child {
+  border-left: 2px solid rgba(4, 39, 17, 0.938);
+}
+
+.box:last-child {
+  border-right: 2px solid rgba(4, 39, 17, 0.938);
+}
+
+.row:first-child .box {
+  border-top: 2px solid rgba(4, 39, 17, 0.938);
+}
+
+.row:last-child .box {
+  border-bottom: 2px solid rgba(4, 39, 17, 0.938);
+}
+
+.box.Wx3 {
+  background-color: rgba(255, 0, 0, 0.76);
+}
+
+.box.Wx2 {
+  background-color: rgba(252, 80, 0, 0.384);
+}
+
+.box.Lx3 {
+  background-color: rgba(0, 119, 255, 0.411);
+}
+
+.box.Lx2 {
+  background-color: rgba(84, 207, 245, 0.342);
+}
+
+.box.START {
+  font-size: 14px;
+  font-weight: 1000;
+  background-color: rgba(247, 142, 142, 0.404);
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 70px 0px 70px;
+  width: calc(7 * 50);
+}
+
+#letters {
+  display: flex;
+  margin: 20px;
+}
+
+.letter {
+  border: 2px solid rgba(4, 39, 17, 0.938);
+  width: 45px;
+  height: 45px;
+  margin: 5px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 25px;
+  box-sizing: border-box;
+  padding-left: 5px;
+  background-color: rgba(222, 184, 135, 0.575);
+}
+
+.letter.occupied {
+  background-color: rgba(0, 0, 0, 0.226);
+}
+.value {
+  align-self: flex-end;
+  padding: 2px;
+  font-size: 12px;
+}
+
+#score {
+  border: 2px solid rgba(4, 39, 17, 0.938);
+  height: 50px;
+  width: 100px;
+  margin: 20px;
+}
+
+#time {
+  border: 1px solid rgba(4, 39, 17, 0.938);
+  height: 50px;
+  width: 100px;
+  margin: 20px;
+}
+
+#play {
+  margin: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 50px;
+  color: rgba(65, 59, 59, 0.938);
+  border: 2px solid rgba(4, 39, 17, 0.938);
+  padding: 20px 40px 20px 40px;
+}
+
+#play:hover {
+  background-color: rgba(255, 0, 0, 0.274);
+  transition-duration: 0.5s;
+}

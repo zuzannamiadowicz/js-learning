@@ -48,6 +48,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .box:first-child {
@@ -88,6 +89,11 @@ body {
   background-color: rgba(247, 142, 142, 0.404);
 }
 
+.box.occupied {
+  background-color: rgba(222, 184, 135, 0.575);
+  cursor: not-allowed;
+}
+
 #menu {
   display: flex;
   flex-direction: column;
@@ -102,6 +108,7 @@ body {
 }
 
 .letter {
+  cursor: pointer;
   border: 2px solid rgba(4, 39, 17, 0.938);
   width: 45px;
   height: 45px;
@@ -117,8 +124,12 @@ body {
   background-color: rgba(222, 184, 135, 0.575);
 }
 
-.letter.occupied {
-  background-color: rgba(0, 0, 0, 0.226);
+.letter:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.selected {
+  background-color: rgba(0, 0, 0, 0.37);
 }
 .value {
   align-self: flex-end;
@@ -143,7 +154,7 @@ body {
 #play {
   margin: 20px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 50px;
+  font-size: 45px;
   color: rgba(65, 59, 59, 0.938);
   border: 2px solid rgba(4, 39, 17, 0.938);
   padding: 20px 40px 20px 40px;
@@ -152,4 +163,13 @@ body {
 #play:hover {
   background-color: rgba(255, 0, 0, 0.274);
   transition-duration: 0.5s;
+}
+
+#confirm {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  background-color: white;
+  border: 2px solid rgba(4, 39, 17, 0.938);
+  width: 80px;
+  height: 40px;
 }

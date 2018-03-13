@@ -1,5 +1,6 @@
 let available_letters = []; //user's letters
 let word_letters = []; //before confirmation
+let all_points = 0;
 
 function create_board() {
   const board = document.querySelector('#board');
@@ -66,6 +67,7 @@ function put_letter(event) {
     word_letters.push({ letter: selected_letter, x: box_x, y: box_y });
     selected_letter = null;
     selected_letter_element.style.display = 'none';
+    document.querySelector('#letter_score').innerHTML = points_counting();
   }
 }
 
@@ -134,6 +136,36 @@ function check_word_order(word_direction) {
   }
 }
 
+function points_counting() {
+  let word_points = 0;
+  let Wx2 = false;
+  let Wx3 = false;
+
+  for (let i = 0; i < word_letters.length; i++) {
+    let letter = word_letters[i];
+    let x = letter.x;
+    let y = letter.y;
+
+    if (board_boxes[x][y] === 'Lx2') {
+      word_points += letter.letter.value * 2;
+    } else if (board_boxes[x][y] === 'Lx3') {
+      word_points += letter.letter.value * 3;
+    } else if (board_boxes[x][y] === '' || board_boxes[x][y] === 'START') {
+      word_points += letter.letter.value;
+    } else if (board_boxes[x][y] === 'Wx2') {
+      Wx2 = true;
+    } else if (board_boxes[x][y] === 'Wx3') {
+      Wx3 = true;
+    }
+  }
+  if (Wx2 === true) {
+    word_points = word_points * 2;
+  } else if (Wx3 === true) {
+    word_points = word_points * 3;
+  }
+  return word_points;
+}
+
 let word_counter = 0;
 
 function confirmation() {
@@ -141,8 +173,6 @@ function confirmation() {
     alert('First word has to be on start');
     return;
   }
-  word_counter += 1;
-
   let word_direction = get_word_direction();
   if (word_direction === undefined) {
     alert('Word has to be in one row or column');
@@ -150,13 +180,15 @@ function confirmation() {
   }
   let is_correct = check_word_order(word_direction);
   if (is_correct) {
-    alert('ok');
-    return;
+    all_points += points_counting();
+    document.querySelector('#score').innerHTML = all_points;
+    word_letters.splice(0, word_letters.length);
+    word_counter += 1;
+    document.querySelector('#letter_score').innerHTML = 0;
   } else {
     alert('no spaces between the letters!');
     return;
   }
-  word_letters.splice(0, word_letters.length);
 }
 
 let letters = [

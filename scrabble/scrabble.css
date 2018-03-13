@@ -137,32 +137,27 @@ body {
   font-size: 12px;
 }
 
+#scores {
+  display: flex;
+  flex-direction: row;
+}
+
+#letter_score,
 #score {
   border: 2px solid rgba(4, 39, 17, 0.938);
   height: 50px;
-  width: 100px;
+  width: 50px;
   margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #time {
-  border: 1px solid rgba(4, 39, 17, 0.938);
+  border: 2px solid rgba(4, 39, 17, 0.938);
   height: 50px;
   width: 100px;
   margin: 20px;
-}
-
-#play {
-  margin: 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 45px;
-  color: rgba(65, 59, 59, 0.938);
-  border: 2px solid rgba(4, 39, 17, 0.938);
-  padding: 20px 40px 20px 40px;
-}
-
-#play:hover {
-  background-color: rgba(255, 0, 0, 0.274);
-  transition-duration: 0.5s;
 }
 
 #confirm {

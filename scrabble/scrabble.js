@@ -26,49 +26,75 @@ function create_board() {
 
 function create_letters() {
   if (letters.length > 0) {
-    const letter_container = document.querySelector('#letters');
     do {
       let letter_index = [Math.floor(Math.random() * letters.length)];
       available_letters.push(letters[letter_index]);
+      create_letter(letters[letter_index]);
 
-      let letter = document.createElement('div');
-      letter.classList.add('letter');
-      letter.setAttribute('letter-index', available_letters.length - 1);
-
-      letter.innerHTML = letters[letter_index].letter;
-      let value = document.createElement('div');
-      value.innerHTML = letters[letter_index].value;
-      value.classList.add('value');
-
-      letter.appendChild(value);
-      letter.addEventListener('click', select_letter);
-      letter_container.appendChild(letter);
       letters.splice(letter_index, 1);
-    } while (available_letters.length <= 7);
+    } while (available_letters.length < 7);
   }
+}
+
+function create_letter(letter) {
+  const letters_container = document.querySelector('#letters');
+
+  const letter_container = document.createElement('div');
+  letter_container.classList.add('letter');
+  letter_container.setAttribute('letter', letter.letter);
+  letter_container.setAttribute('value', letter.value);
+
+  letter_container.innerHTML = letter.letter;
+  const value = document.createElement('div');
+  value.innerHTML = letter.value;
+  value.classList.add('value');
+
+  letter_container.appendChild(value);
+  letter_container.addEventListener('click', select_letter);
+  letters_container.appendChild(letter_container);
 }
 
 let selected_letter;
 let selected_letter_element;
 
 function select_letter(event) {
-  const letter_index = event.target.getAttribute('letter-index');
-  selected_letter = available_letters[letter_index];
-  event.target.classList.add('selected');
-  selected_letter_element = event.target;
+  console.log(event.currentTarget, event.target);
+  const letter = event.currentTarget.getAttribute('letter');
+  const value = parseInt(event.currentTarget.getAttribute('value'));
+
+  selected_letter = { letter: letter, value: value };
+
+  event.currentTarget.classList.add('selected');
+  selected_letter_element = event.currentTarget;
 }
 
 function put_letter(event) {
-  if (selected_letter != null && !event.target.classList.contains('occupied')) {
+  if (selected_letter !== null && !event.target.classList.contains('occupied')) {
     const box_x = parseInt(event.target.getAttribute('box-x'));
     const box_y = parseInt(event.target.getAttribute('box-y'));
     event.target.innerHTML = selected_letter.letter;
     event.target.classList.add('occupied');
     word_letters.push({ letter: selected_letter, x: box_x, y: box_y });
+
+    const available_letter_index = available_letters.findIndex(function(letter) {
+      return letter.letter === select_letter.letter;
+    });
+    available_letters.splice(available_letter_index, 1);
+    display_word_points();
+
     selected_letter = null;
-    selected_letter_element.style.display = 'none';
-    document.querySelector('#letter_score').innerHTML = points_counting();
+    selected_letter_element.remove();
   }
+}
+
+function letter_undo() {
+  const last_letter = word_letters.pop();
+  let board_box = document.querySelector(`.row:nth-child(${last_letter.x + 1}) .box:nth-child(${last_letter.y + 1})`);
+  board_box.classList.remove('occupied');
+  board_box.innerHTML = board_boxes[last_letter.x][last_letter.y];
+  display_word_points();
+  available_letters.push(last_letter);
+  create_letter(last_letter.letter, available_letters.length - 1);
 }
 
 function is_first_word_on_start() {
@@ -112,11 +138,29 @@ function are_ascending_by_one(coordinates) {
   return true;
 }
 
+function compare_by_x(letter0, letter1) {
+  if (letter0.x < letter1.x) {
+    return -1;
+  } else if (letter0.x === letter1.x) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+function compare_by_y(letter0, letter1) {
+  if (letter0.y < letter1.y) {
+    return -1;
+  } else if (letter0.x === letter1.x) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
 function check_word_order(word_direction) {
   if (word_direction === 'column') {
-    const sorted_letters = word_letters.sort(function(letter0, letter1) {
-      return letter0.x - letter1.x;
-    });
+    const sorted_letters = word_letters.sort(compare_by_x);
 
     let x_coordinates = [];
     for (let i = 0; i < sorted_letters.length; i++) {
@@ -125,9 +169,7 @@ function check_word_order(word_direction) {
 
     return are_ascending_by_one(x_coordinates);
   } else {
-    const sorted_letters = word_letters.sort(function(letter0, letter1) {
-      return letter0.y - letter1.y;
-    });
+    const sorted_letters = word_letters.sort(compare_by_y);
     let y_coordinates = [];
     for (let i = 0; i < sorted_letters.length; i++) {
       y_coordinates.push(sorted_letters[i].y);
@@ -145,16 +187,19 @@ function points_counting() {
     let letter = word_letters[i];
     let x = letter.x;
     let y = letter.y;
+    let value = letter.letter.value;
 
     if (board_boxes[x][y] === 'Lx2') {
-      word_points += letter.letter.value * 2;
+      word_points += value * 2;
     } else if (board_boxes[x][y] === 'Lx3') {
-      word_points += letter.letter.value * 3;
+      word_points += value * 3;
     } else if (board_boxes[x][y] === '' || board_boxes[x][y] === 'START') {
-      word_points += letter.letter.value;
+      word_points += value;
     } else if (board_boxes[x][y] === 'Wx2') {
+      word_points += value;
       Wx2 = true;
     } else if (board_boxes[x][y] === 'Wx3') {
+      word_points += value;
       Wx3 = true;
     }
   }
@@ -164,6 +209,10 @@ function points_counting() {
     word_points = word_points * 3;
   }
   return word_points;
+}
+
+function display_word_points() {
+  document.querySelector('#letter_score').innerHTML = points_counting();
 }
 
 let word_counter = 0;
@@ -185,6 +234,8 @@ function confirmation() {
     word_letters.splice(0, word_letters.length);
     word_counter += 1;
     document.querySelector('#letter_score').innerHTML = 0;
+    create_letters();
+    word_letters.splice(0, word_letters.length);
   } else {
     alert('no spaces between the letters!');
     return;

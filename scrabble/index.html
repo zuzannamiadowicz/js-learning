@@ -16,14 +16,28 @@
     <div id=game_space>
       <div id=board></div>
       <div id=menu>
-        <div id=letters></div>
-        <button id=confirm type="button" value="confirm" onclick="confirmation()">
-          confirm
-        </button>
+        <div id=score-names>
+          <div id=letter-score-name>
+            letter-score
+          </div>
+          <div id=score-name>
+            all points
+          </div>
+        </div>
         <div id=scores>
           <div id=letter_score></div>
           <div id=score></div>
         </div>
+        <div id=letters></div>
+        <div id=controls>
+          <button id=undo type="button" value="undo" onclick="letter_undo()">
+            ←
+          </button>
+          <button id=confirm type="button" value="confirm" onclick="confirmation()">
+            confirm
+          </button>
+        </div>
+
         <div id=time></div>
       </div>
     </div>

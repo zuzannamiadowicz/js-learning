@@ -1,6 +1,7 @@
 let available_letters = []; //user's letters
 let word_letters = []; //before confirmation
 let all_points = 0;
+let letters_on_board = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 
 function create_board() {
   const board = document.querySelector('#board');
@@ -13,8 +14,8 @@ function create_board() {
       const box = document.createElement('div');
       box.innerHTML = board_boxes[i][j];
       box.classList.add('box');
-      box.setAttribute('box-x', i);
-      box.setAttribute('box-y', j);
+      box.setAttribute('box-x', j);
+      box.setAttribute('box-y', i);
       if (board_boxes[i][j] != '') {
         box.classList.add(board_boxes[i][j]);
       }
@@ -58,7 +59,6 @@ let selected_letter;
 let selected_letter_element;
 
 function select_letter(event) {
-  console.log(event.currentTarget, event.target);
   const letter = event.currentTarget.getAttribute('letter');
   const value = parseInt(event.currentTarget.getAttribute('value'));
 
@@ -119,10 +119,10 @@ function get_word_direction() {
       x += 1;
     }
   }
-  if (y === word_letters.length - 1) {
+  if (x === word_letters.length - 1) {
     return 'column';
   }
-  if (x === word_letters.length - 1) {
+  if (y === word_letters.length - 1) {
     return 'row';
   }
 
@@ -151,7 +151,7 @@ function compare_by_x(letter0, letter1) {
 function compare_by_y(letter0, letter1) {
   if (letter0.y < letter1.y) {
     return -1;
-  } else if (letter0.x === letter1.x) {
+  } else if (letter0.y === letter1.y) {
     return 0;
   } else {
     return 1;
@@ -159,7 +159,7 @@ function compare_by_y(letter0, letter1) {
 }
 
 function check_word_order(word_direction) {
-  if (word_direction === 'column') {
+  if (word_direction === 'row') {
     const sorted_letters = word_letters.sort(compare_by_x);
 
     let x_coordinates = [];
@@ -193,7 +193,7 @@ function points_counting() {
       word_points += value * 2;
     } else if (board_boxes[x][y] === 'Lx3') {
       word_points += value * 3;
-    } else if (board_boxes[x][y] === '' || board_boxes[x][y] === 'START') {
+    } else if (board_boxes[x][y] === '' || board_boxes[x][y] === 'x') {
       word_points += value;
     } else if (board_boxes[x][y] === 'Wx2') {
       word_points += value;
@@ -215,6 +215,16 @@ function display_word_points() {
   document.querySelector('#letter_score').innerHTML = points_counting();
 }
 
+function display_all_points() {
+  document.querySelector('#score').innerHTML = all_points;
+}
+
+function put_word_letters_to_board_letters() {
+  for (let letter of word_letters) {
+    letters_on_board[letter.y][letter.x] = letter.letter;
+  }
+}
+
 let word_counter = 0;
 
 function confirmation() {
@@ -229,13 +239,15 @@ function confirmation() {
   }
   let is_correct = check_word_order(word_direction);
   if (is_correct) {
+    put_word_letters_to_board_letters();
     all_points += points_counting();
-    document.querySelector('#score').innerHTML = all_points;
-    word_letters.splice(0, word_letters.length);
+    display_all_points();
+
+    word_letters = [];
     word_counter += 1;
     document.querySelector('#letter_score').innerHTML = 0;
     create_letters();
-    word_letters.splice(0, word_letters.length);
+    console.log(letters_on_board);
   } else {
     alert('no spaces between the letters!');
     return;
@@ -352,7 +364,7 @@ let board_boxes = [
   ['', '', '', '', 'Wx2', '', '', '', '', '', 'Wx2', '', '', '', ''],
   ['', 'Lx3', '', '', '', 'Lx3', '', '', '', 'Lx3', '', '', '', 'Lx3', ''],
   ['', '', 'Lx2', '', '', '', 'Lx2', '', 'Lx2', '', '', '', 'Lx2', '', ''],
-  ['Wx3', '', '', 'Lx2', '', '', '', 'START', '', '', '', 'Lx2', '', '', 'Wx3'],
+  ['Wx3', '', '', 'Lx2', '', '', '', 'x', '', '', '', 'Lx2', '', '', 'Wx3'],
   ['', '', 'Lx2', '', '', '', 'Lx2', '', 'Lx2', '', '', '', 'Lx2', '', ''],
   ['', 'Lx3', '', '', '', 'Lx3', '', '', '', 'Lx3', '', '', '', 'Lx3', ''],
   ['', '', '', '', 'Wx2', '', '', '', '', '', 'Wx2', '', '', '', ''],

@@ -83,8 +83,7 @@ body {
   background-color: rgba(84, 207, 245, 0.342);
 }
 
-.box.START {
-  font-size: 14px;
+.box.x {
   font-weight: 1000;
   background-color: rgba(247, 142, 142, 0.404);
 }
@@ -99,7 +98,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 0px 70px 0px 70px;
-  width: calc(7 * 50);
+  width: calc(7 * 50px);
 }
 
 #letters {
@@ -188,7 +187,6 @@ body {
 
 #score {
   border-right: 2px solid rgba(4, 39, 17, 0.938);
-
   border-bottom: 2px solid rgba(4, 39, 17, 0.938);
 }
 #time {

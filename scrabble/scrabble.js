@@ -1,5 +1,5 @@
 let available_letters = []; //user's letters
-let word_letters = []; //before confirmation
+let word_letters = []; //before confirm
 let all_points = 0;
 let letters_on_board = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], []];
 
@@ -81,7 +81,8 @@ function put_letter(event) {
       return letter.letter === select_letter.letter;
     });
     available_letters.splice(available_letter_index, 1);
-    display_word_points();
+    let all_word = combine_word_with_letters_on_board();
+    display_word_points(all_word);
 
     selected_letter = null;
     selected_letter_element.remove();
@@ -95,7 +96,8 @@ function letter_undo() {
     let board_box = document.querySelector(`.row:nth-child(${last_letter.y + 1}) .box:nth-child(${last_letter.x + 1})`);
     board_box.classList.remove('occupied');
     board_box.innerHTML = board_boxes[last_letter.y][last_letter.x];
-    display_word_points();
+    let all_word = combine_word_with_letters_on_board();
+    display_word_points(all_word);
     available_letters.push(last_letter);
     create_letter(last_letter.letter, available_letters.length - 1);
     if (word_letters.length === 0) {
@@ -165,16 +167,16 @@ function compare_by_y(letter0, letter1) {
   }
 }
 
-function check_word_order(word_direction) {
+function check_word_order(word_direction, word) {
   if (word_direction === 'row') {
-    const sorted_letters = word_letters.sort(compare_by_x);
+    const sorted_letters = word.sort(compare_by_x);
     let x_coordinates = [];
     for (let letter of sorted_letters) {
       x_coordinates.push(letter.x);
     }
     return are_ascending_by_one(x_coordinates);
   } else {
-    const sorted_letters = word_letters.sort(compare_by_y);
+    const sorted_letters = word.sort(compare_by_y);
     let y_coordinates = [];
     for (let letter of sorted_letters) {
       y_coordinates.push(letter.y);
@@ -183,12 +185,12 @@ function check_word_order(word_direction) {
   }
 }
 
-function points_counting() {
+function points_counting(word) {
   let word_points = 0;
   let Wx2 = false;
   let Wx3 = false;
 
-  for (let letter of word_letters) {
+  for (let letter of word) {
     let x = letter.x;
     let y = letter.y;
     let value = letter.letter.value;
@@ -215,8 +217,8 @@ function points_counting() {
   return word_points;
 }
 
-function display_word_points() {
-  document.querySelector('#letter_score').innerHTML = points_counting();
+function display_word_points(word) {
+  document.querySelector('#letter_score').innerHTML = points_counting(word);
 }
 
 function display_all_points() {
@@ -225,28 +227,158 @@ function display_all_points() {
 
 function put_word_letters_to_board_letters() {
   for (let letter of word_letters) {
-    letters_on_board[letter.y][letter.x] = letter.letter;
+    letters_on_board[letter.y][letter.x] = letter;
   }
+}
+
+function combine_word_with_letters_on_board() {
+  let direction = get_word_direction();
+  let board_letters = [];
+  let board_and_word_letters = [];
+  let sorted_letters = [];
+
+  if (direction === 'column') {
+    for (let row of letters_on_board) {
+      board_letters.push(row[word_letters[0].x]);
+    }
+
+    sorted_letters = word_letters.sort(compare_by_y);
+
+    let first_y = sorted_letters[0].y;
+    let last_y = sorted_letters[sorted_letters.length - 1].y;
+
+    complete_word('y', first_y, last_y);
+  } else if (direction === 'row') {
+    board_letters = letters_on_board[word_letters[0].y];
+    sorted_letters = word_letters.sort(compare_by_x);
+
+    let first_x = sorted_letters[0].x;
+    let last_x = sorted_letters[sorted_letters.length - 1].x;
+
+    complete_word('x', first_x, last_x);
+  } else {
+    return [];
+  }
+
+  function complete_word(coordinate, first, last) {
+    let letters_up = first;
+    let letters_down = last;
+
+    for (let i = 0; i < sorted_letters.length - 1; i++) {
+      board_and_word_letters.push(sorted_letters[i]);
+
+      if (sorted_letters[i + 1][coordinate] - sorted_letters[i][coordinate] > 1) {
+        for (let j = sorted_letters[i][coordinate] + 1; j < sorted_letters[i + 1][coordinate]; j++) {
+          // to dodałem
+          if (board_letters[j] !== undefined) {
+            board_and_word_letters.push(board_letters[j]);
+          }
+        }
+      }
+    }
+    board_and_word_letters.push(sorted_letters[sorted_letters.length - 1]);
+
+    while (board_letters[letters_up - 1] !== undefined) {
+      board_and_word_letters.push(board_letters[letters_up - 1]);
+      letters_up = letters_up - 1;
+    }
+
+    while (board_letters[letters_down + 1] !== undefined) {
+      board_and_word_letters.push(board_letters[letters_down + 1]);
+      letters_down = letters_down + 1;
+    }
+  }
+
+  return board_and_word_letters;
+}
+
+function check_sides_words() {
+  let sides_words = [];
+  let direction = get_word_direction();
+
+  if (direction === 'column') {
+    for (let letter of word_letters) {
+      let word = [];
+      if (
+        letters_on_board[letter.y][letter.x - 1] !== undefined ||
+        letters_on_board[letter.y][letter.x + 1] !== undefined
+      ) {
+        const y = letter.y;
+
+        word.push(letter);
+
+        let x = letter.x - 1;
+        while (letters_on_board[y][x] !== undefined) {
+          word.push({ letter: letters_on_board[y][x], x: x, y: y });
+          x -= 1;
+        }
+
+        x = letter.x + 1;
+        while (letters_on_board[y][x] !== undefined) {
+          word.push({ letter: letters_on_board[y][x], x: x, y: y });
+          x += 1;
+        }
+      }
+      word = word.sort(compare_by_x);
+      sides_words.push(word);
+    }
+  }
+  if (direction === 'row') {
+    for (let letter of word_letters) {
+      let word = [];
+      if (
+        letters_on_board[letter.y - 1][letter.x] !== undefined ||
+        letters_on_board[letter.y + 1][letter.x] !== undefined
+      ) {
+        const x = letter.x;
+
+        word.push(letter);
+
+        let y = letter.y;
+        while (letters_on_board[y][x] !== undefined) {
+          word.push({ letter: letters_on_board[y][x], x: x, y: y });
+          y -= 1;
+        }
+
+        y = letter.y + 1;
+        while (letters_on_board[y][x] !== undefined) {
+          word.push({ letter: letters_on_board[y][x], x: x, y: y + 1 });
+          y += 1;
+        }
+      }
+      word = word.sort(compare_by_y);
+      sides_words.push(word);
+    }
+  }
+  return sides_words;
 }
 
 let word_counter = 0;
 
-function confirmation() {
+function confirm() {
   if (word_counter === 0 && !is_first_word_on_start()) {
     alert('First word has to be on start');
     return;
   }
+
   let word_direction = get_word_direction();
   if (word_direction === undefined) {
     alert('Word has to be in one row or column');
     return;
   }
-  let is_correct = check_word_order(word_direction);
+
+  let complete_word = combine_word_with_letters_on_board();
+  console.log(complete_word);
+  console.log(word_letters);
+
+  let is_correct = check_word_order(word_direction, complete_word);
   if (is_correct) {
-    put_word_letters_to_board_letters();
-    all_points += points_counting();
+    all_points += points_counting(complete_word);
     display_all_points();
 
+    console.log('words', check_sides_words());
+
+    put_word_letters_to_board_letters();
     word_letters = [];
     word_counter += 1;
     document.querySelector('#letter_score').innerHTML = 0;

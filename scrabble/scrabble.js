@@ -59,11 +59,13 @@ let selected_letter;
 let selected_letter_element;
 
 function select_letter(event) {
+  if (selected_letter_element !== undefined) {
+    selected_letter_element.classList.remove('selected');
+  }
   const letter = event.currentTarget.getAttribute('letter');
   const value = parseInt(event.currentTarget.getAttribute('value'));
 
   selected_letter = { letter: letter, value: value };
-
   event.currentTarget.classList.add('selected');
   selected_letter_element = event.currentTarget;
 }
@@ -82,7 +84,7 @@ function put_letter(event) {
     });
     available_letters.splice(available_letter_index, 1);
     let all_word = combine_word_with_letters_on_board();
-    display_word_points(all_word);
+    display_word_points(all_word, word_letters);
     selected_letter = null;
     selected_letter_element.remove();
     document.querySelector('#undo').disabled = false;
@@ -97,7 +99,7 @@ function letter_undo() {
     board_box.innerHTML = board_boxes[last_letter.y][last_letter.x];
     let all_word = combine_word_with_letters_on_board();
 
-    display_word_points(all_word);
+    display_word_points(all_word, word_letters);
     available_letters.push(last_letter);
     create_letter(last_letter.letter, available_letters.length - 1);
     if (word_letters.length === 0) {
@@ -185,7 +187,7 @@ function check_word_order(word_direction, word) {
   }
 }
 
-function points_counting(word) {
+function calc_points_for_word(word, word_letters) {
   let word_points = 0;
   let Wx2 = false;
   let Wx3 = false;
@@ -221,10 +223,6 @@ function points_counting(word) {
   } else if (Wx3 === true) {
     word_points = word_points * 3;
   }
-
-  let sides_words = check_sides_words();
-  word_points += count_side_words_points(sides_words);
-
   return word_points;
 }
 
@@ -244,8 +242,17 @@ function letters_without_extra_points(word) {
   return no_extra_points;
 }
 
-function display_word_points(word) {
-  document.querySelector('#letter_score').innerHTML = points_counting(word);
+function points_counting(word, word_letters) {
+  let sides_words = check_sides_words();
+  let result = 0;
+  result += count_points_from_side_words(sides_words);
+  result += calc_points_for_word(word, word_letters);
+
+  return result;
+}
+
+function display_word_points(word, word_letters) {
+  document.querySelector('#letter_score').innerHTML = points_counting(word, word_letters);
 }
 
 function display_all_points() {
@@ -379,7 +386,7 @@ function check_sides_words() {
   return sides_words;
 }
 
-function count_side_words_points(sides_words) {
+function count_points_from_side_words(sides_words) {
   let points = 0;
 
   for (let word of sides_words) {
@@ -392,44 +399,7 @@ function count_side_words_points(sides_words) {
         }
       }
     }
-
-    let no_extra_points_letters = letters_without_extra_points(word);
-
-    let Wx2 = false;
-    let Wx3 = false;
-    let word_points = 0;
-
-    for (let letter of word_letters_from_side_word) {
-      let x = letter.x;
-      let y = letter.y;
-      let value = letter.letter.value;
-
-      if (board_boxes[y][x] === 'Lx2') {
-        word_points += value * 2;
-      } else if (board_boxes[y][x] === 'Lx3') {
-        word_points += value * 3;
-      } else if (board_boxes[y][x] === '' || board_boxes[y][x] === 'x') {
-        word_points += value;
-      } else if (board_boxes[y][x] === 'Wx2') {
-        word_points += value;
-        Wx2 = true;
-      } else if (board_boxes[y][x] === 'Wx3') {
-        word_points += value;
-        Wx3 = true;
-      }
-    }
-
-    for (let letter of no_extra_points_letters) {
-      word_points += letter.letter.value;
-    }
-
-    if (Wx2 === true) {
-      word_points = word_points * 2;
-    } else if (Wx3 === true) {
-      word_points = word_points * 3;
-    }
-
-    points += word_points;
+    points += calc_points_for_word(word, word_letters_from_side_word);
   }
   return points;
 }
@@ -449,10 +419,9 @@ function confirm() {
   }
 
   let complete_word = combine_word_with_letters_on_board();
-
   let is_correct = check_word_order(word_direction, complete_word);
   if (is_correct) {
-    all_points += points_counting(complete_word);
+    all_points += points_counting(complete_word, word_letters);
     display_all_points();
 
     put_word_letters_to_board_letters();

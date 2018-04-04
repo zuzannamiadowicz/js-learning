@@ -35,6 +35,10 @@ function create_letters() {
   }
 }
 
+function start_game() {
+  window.location.reload();
+}
+
 function create_letter(letter) {
   const letters_container = document.querySelector('#letters');
 
@@ -628,3 +632,70 @@ let board_boxes = [
 
 create_board();
 create_letters();
+
+let timeinterval = 0;
+let time_end;
+let total;
+time_countdown(1);
+
+function time_countdown(minutes) {
+  const time_in_minutes = minutes;
+  const current_time = Date.parse(new Date());
+  time_end = new Date(current_time + time_in_minutes * 60 * 1000);
+
+  function update_clock() {
+    let time = time_remaining(time_end);
+    document.querySelector('#clock').innerHTML = time.minutes + ':' + time.seconds;
+    if (time.total <= 0) {
+      clearInterval(timeinterval);
+      game_over();
+    }
+  }
+  timeinterval = setInterval(update_clock, 1000);
+}
+
+function time_remaining(time_end) {
+  total = time_end - Date.parse(new Date());
+  let seconds = Math.floor((total / 1000) % 60);
+  if (seconds < 10) {
+    seconds = '0' + seconds;
+  }
+  let minutes = Math.floor((total / 1000 / 60) % 60);
+  if (minutes < 10) {
+    minutes = '0' + minutes;
+  }
+  return { total: total, minutes: minutes, seconds: seconds };
+}
+
+function pause_timer() {
+  clearInterval(timeinterval);
+}
+
+let pause = false;
+
+function pause_game() {
+  if (pause === false) {
+    document.querySelector('#pause').innerHTML = '⏏︎';
+    document.querySelector('#pause').style.transform = 'rotate(90deg)';
+    pause_timer();
+    document.querySelector('#board').classList.add('blur');
+    document.querySelector('#letters').classList.add('blur');
+    pause = true;
+  } else {
+    document.querySelector('#pause').innerHTML = '||';
+    document.querySelector('#pause').style.transform = 'none';
+    time_countdown(total / 1000 / 60);
+    document.querySelector('#board').classList.remove('blur');
+    document.querySelector('#letters').classList.remove('blur');
+    pause = false;
+  }
+}
+
+function game_over() {
+  document.querySelector('#game_space').classList.add('blur');
+  document.querySelector('#game_over').style.display = 'flex';
+  const elm = document.createElement('div');
+  elm.innerHTML = 'Game over' + '<br>' + 'Your points: ' + all_points;
+
+  document.querySelector('#game_over').appendChild(elm);
+}

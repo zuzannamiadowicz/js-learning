@@ -10,35 +10,40 @@
 
 <body>
   <div class="root">
-    <div id=header>
-      <div id=game_name> SCRABBLE </div>
+    <div id="header">
+      <div id="game_name"> SCRABBLE </div>
     </div>
-    <div id=game_space>
-      <div id=board></div>
-      <div id=menu>
-        <div id=score-names>
-          <div id=letter-score-name>
+    <div id="game_over">
+      <div id="play_again" onclick="start_game()">"click" to play again</div>
+    </div>
+    <div id="game_space">
+      <div id="board"></div>
+      <div id="menu">
+        <div id="score-names">
+          <div id="letter-score-name">
             letter-score
           </div>
-          <div id=score-name>
+          <div id="score-name">
             all points
           </div>
         </div>
-        <div id=scores>
-          <div id=letter_score></div>
-          <div id=score></div>
+        <div id="scores">
+          <div id="letter_score"></div>
+          <div id="score"></div>
         </div>
-        <div id=letters></div>
-        <div id=controls>
-          <button id=undo type="button" value="undo" onclick="letter_undo()" disabled>
+        <div id="letters"></div>
+        <div id="controls">
+          <button id="undo" type="button" value="undo" onclick="letter_undo()" disabled>
             ←
           </button>
-          <button id=confirm type="button" value="confirm" onclick="confirm()">
+          <button id="confirm" type="button" value="confirm" onclick="confirm()">
             confirm
           </button>
         </div>
-
-        <div id=time></div>
+        <div id=time>
+          <div id="pause" onclick="pause_game()">||</div>
+          <div id="clock"></div>
+        </div>
       </div>
     </div>
   </div>

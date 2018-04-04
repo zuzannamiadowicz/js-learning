@@ -21,6 +21,10 @@ body {
   width: 100vw;
   height: 100vh;
   display: block;
+  position: relative;
+  color: black;
+  font-weight: bold;
+  font-size: 40px;
 }
 
 #game_space {
@@ -28,9 +32,48 @@ body {
   margin: 50px;
 }
 
+#game_space.blur {
+  filter: blur(7px);
+  transition: filter 500ms linear;
+}
+
+#game_over {
+  z-index: 2;
+  display: none;
+  text-align: center;
+  position: absolute;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+}
+
+#play_again {
+  margin-top: 25px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+}
+
+#play_again:hover {
+  cursor: pointer;
+}
+
 #board {
+  transition: filter 500ms linear;
   width: calc(15 * 50px);
   height: calc(15 * 50px);
+}
+
+#board.blur {
+  filter: blur(5px);
+  transition: filter 500ms linear;
 }
 
 .row {
@@ -102,8 +145,14 @@ body {
 }
 
 #letters {
+  transition: filter 500ms linear;
   display: flex;
   margin: 20px;
+}
+
+#letters.blur {
+  filter: blur(6px);
+  transition: filter 500ms linear;
 }
 
 .letter {
@@ -189,11 +238,39 @@ body {
   border-right: 2px solid rgba(4, 39, 17, 0.938);
   border-bottom: 2px solid rgba(4, 39, 17, 0.938);
 }
+
 #time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#pause {
+  border: 2px solid black;
+  height: 30px;
+  width: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 2px;
+}
+#pause:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+#clock {
   border: 2px solid rgba(4, 39, 17, 0.938);
   height: 50px;
   width: 100px;
   margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 }
 
 #controls {

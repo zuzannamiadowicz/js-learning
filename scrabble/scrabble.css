@@ -220,6 +220,7 @@ body {
 
 #letter_score,
 #score {
+  font-size: 30px;
   height: 40px;
   width: 100px;
   text-align: center;
@@ -248,10 +249,9 @@ body {
 #pause {
   border: 2px solid black;
   height: 30px;
-  width: 30px;
+  width: 70px;
   font-size: 20px;
   font-weight: bold;
-  margin: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -276,8 +276,74 @@ body {
 #controls {
   display: flex;
   align-items: center;
-  align-self: flex-start;
-  padding-left: 80px;
+  justify-content: center;
+}
+
+#letter_exchange {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  background-color: white;
+  border-top: 2px solid rgba(4, 39, 17, 0.938);
+  border-right: 2px solid rgba(4, 39, 17, 0.938);
+  border-bottom: 2px solid rgba(4, 39, 17, 0.938);
+  width: 120px;
+  height: 50px;
+  text-align: center;
+}
+#letter_exchange:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+#letter_exchange:active,
+#letter_exchange:focus {
+  outline: 0;
+}
+
+#pass {
+  font-family: 'Montserrat', sans-serif;
+  border-top: 2px solid rgba(4, 39, 17, 0.938);
+  border-right: 2px solid rgba(4, 39, 17, 0.938);
+  border-bottom: 2px solid rgba(4, 39, 17, 0.938);
+  height: 50px;
+  width: 70px;
+  font-size: 20px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+#pass:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+#pass:active,
+#pass:focus {
+  outline: 0;
+}
+
+#undo {
+  font-family: 'Montserrat', sans-serif;
+  border: 2px solid rgba(4, 39, 17, 0.938);
+  height: 50px;
+  width: 70px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#undo:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+#undo:disabled {
+  cursor: not-allowed;
+  border: 2px solid rgba(127, 127, 127);
+}
+
+#undo:active,
+#undo:focus {
+  outline: 0;
 }
 
 #confirm {
@@ -285,9 +351,13 @@ body {
   font-size: 20px;
   background-color: white;
   border: 2px solid rgba(4, 39, 17, 0.938);
-  width: 100px;
-  height: 60px;
-  margin-left: 20px;
+  width: 110px;
+  height: 50px;
+  margin-bottom: 20px;
+}
+#confirm:active,
+#confirm:focus {
+  outline: 0;
 }
 
 #confirm:hover {
@@ -301,20 +371,4 @@ body {
   66% {
     transform: rotate(1deg);
   }
-}
-
-#undo {
-  border: 2px solid rgba(4, 39, 17, 0.938);
-  height: 40px;
-  width: 40px;
-  font-size: 20px;
-  margin: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#undo:disabled {
-  cursor: not-allowed;
-  border: 2px solid rgba(127, 127, 127);
 }

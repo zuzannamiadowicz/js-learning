@@ -1,3 +1,8 @@
+//pas
+//wymiana liter
+//koniec gry
+//wymiana liter
+
 let available_letters = []; //user's letters
 let word_letters = []; //before confirm
 let all_points = 0;
@@ -26,6 +31,9 @@ function create_board() {
 }
 
 function create_letters() {
+  if (available_letters.length === 0 && letters.length === 0) {
+    game_over();
+  }
   while (available_letters.length < 7 && letters.length > 0) {
     let letter_index = [Math.floor(Math.random() * letters.length)];
     available_letters.push(letters[letter_index]);
@@ -57,7 +65,7 @@ function create_letter(letter) {
   letters_container.appendChild(letter_container);
 }
 
-let selected_letter;
+let selected_letter = null;
 let selected_letter_element;
 
 function select_letter(event) {
@@ -508,6 +516,7 @@ function confirm() {
     alert('no spaces between the letters!');
     return;
   }
+  document.querySelector('#undo').disabled = true;
 }
 
 let letters = [
@@ -676,18 +685,42 @@ let pause = false;
 function pause_game() {
   if (pause === false) {
     document.querySelector('#pause').innerHTML = '⏏︎';
+    document.querySelector('#pause').style.height = '30px';
+    document.querySelector('#pause').style.width = '30px';
     document.querySelector('#pause').style.transform = 'rotate(90deg)';
     pause_timer();
     document.querySelector('#board').classList.add('blur');
     document.querySelector('#letters').classList.add('blur');
+    // document.querySelector('#letters').disabled = true;
     pause = true;
   } else {
-    document.querySelector('#pause').innerHTML = '||';
+    document.querySelector('#pause').innerHTML = 'pause';
+    document.querySelector('#pause').style.width = '70px';
     document.querySelector('#pause').style.transform = 'none';
     time_countdown(total / 1000 / 60);
     document.querySelector('#board').classList.remove('blur');
     document.querySelector('#letters').classList.remove('blur');
+    // document.querySelector('#letters').disabled = false;
     pause = false;
+  }
+}
+
+function pass() {
+  game_over();
+}
+
+function letter_exchange() {
+  if (selected_letter === null) {
+    alert('please, mark letter to exchange');
+  } else {
+    const available_letter_index = available_letters.findIndex(function(letter) {
+      return letter.letter === select_letter.letter;
+    });
+    available_letters.splice(available_letter_index, 1);
+    setTimeout(create_letters, 1000);
+    letters.push(selected_letter);
+    selected_letter = null;
+    selected_letter_element.remove();
   }
 }
 

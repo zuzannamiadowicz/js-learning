@@ -19,6 +19,10 @@
     <div id="game_space">
       <div id="board"></div>
       <div id="menu">
+        <div id=time>
+          <div id="pause" onclick="pause_game()">pause</div>
+          <div id="clock"></div>
+        </div>
         <div id="score-names">
           <div id="letter-score-name">
             letter-score
@@ -32,17 +36,15 @@
           <div id="score"></div>
         </div>
         <div id="letters"></div>
+        <button id="confirm" type="button" value="confirm" onclick="confirm()">
+          confirm
+        </button>
         <div id="controls">
           <button id="undo" type="button" value="undo" onclick="letter_undo()" disabled>
-            ←
+            undo
           </button>
-          <button id="confirm" type="button" value="confirm" onclick="confirm()">
-            confirm
-          </button>
-        </div>
-        <div id=time>
-          <div id="pause" onclick="pause_game()">||</div>
-          <div id="clock"></div>
+          <button id="pass" type="button" value="pass" onclick="pass()">pass</button>
+          <button id="letter_exchange" type="button" value="letter_exchange" onclick="letter_exchange()">exchange</button>
         </div>
       </div>
     </div>
